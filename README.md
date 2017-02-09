@@ -27,4 +27,8 @@ In the example below, a pixel is being drawn to the screen.
 1x001
 
 ```
+### Future
 
+- [ ] PocoCompiler; a compiler which compiles PocoAssembly -> PocoByte
+- [ ] Application Development; a workflow for programming simple games (Pong, Breakout, etc...)
+- [ ] Desktop Support; currently the PocoVM is browser-only
