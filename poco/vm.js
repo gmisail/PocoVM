@@ -1,14 +1,14 @@
 var _body = document.getElementById("body");
 var _canvas;
-var _width = 64;
-var _height = 64;
+var _width = 256;
+var _height = 256;
 
 function start(){
     document.writeln("<canvas id='pocovm' width=" + _width + " height=" + _height + "></canvas>");
     var _tempContext = document.getElementById("pocovm");
     _canvas = _tempContext.getContext("2d");
-    _tempContext.style.width = 640;
-    _tempContext.style.height = 640;
+    _tempContext.style.width = _width * 2;
+    _tempContext.style.height = _height * 2;
     _canvas.scale(2, 2);
     document.writeln("<br><button tabindex='-1' onclick='run()'>Turn On</button>");
 
@@ -23,10 +23,10 @@ function run(){
         fileString = fileString.split('\n');
 
         for(var line in fileString){
-            parse_rom(fileString[line].split("x"));
+            var l = fileString[line].split("x");
+            if(!functionFlag || l[0] == "6") parse_rom(l);
+            else functionBuffer.push(fileString[line]);
         }
-
-
     }
 }
 
@@ -35,6 +35,9 @@ function run(){
 /* ------------------------------ */
 
 var storage = {};
+
+var functionBuffer = [];
+var functionFlag = false;
 
 function parse_rom(line){
     if(line[0] == "0"){
@@ -56,7 +59,18 @@ function parse_rom(line){
     if(line[0] == "5"){
         math(line);
     }
+
+    if(line[0] == "6"){
+        /*
+        
+        6x000
+        
+        
+        */
+        func(line);
+    }
 }
+
 
 function screen(line){
     if(line[1] == "000"){
@@ -97,6 +111,36 @@ function math(line){
 
     if(line[1] == "003"){
         storage.c = parseInt(storage.a) / parseInt(storage.b);
+    }
+}
+
+function func(line){
+
+    /* begin function flag */
+    if(line[1].substring(2, 3) == "0"){
+        storage[line[1].substring(0, 2)] = [];
+
+        functionFlag = true;
+
+    }
+
+    /* end function flag */
+    if(line[1].substring(2, 3) == "1"){
+        /* first 2 characters are the name of the function */
+        storage[line[1].substring(0, 2)] = functionBuffer;
+
+        functionBuffer = [];
+        functionFlag = false;
+    }
+
+    /* run function flag */
+    if(line[1].substring(2, 3) == "2"){
+        var _func = storage[line[1].substring(0, 2)];
+        for(var l in _func){
+            //console.log(_func[l]);
+            parse_rom(_func[l].split("x"));
+            //parse each line
+        }
     }
 }
 
