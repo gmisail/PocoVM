@@ -2,17 +2,20 @@ var _body = document.getElementById("body");
 var _canvas;
 var _width = 256;
 var _height = 256;
+var _context;
 
 function start(){
     document.writeln("<canvas id='pocovm' width=" + _width + " height=" + _height + "></canvas>");
-    var _tempContext = document.getElementById("pocovm");
-    _canvas = _tempContext.getContext("2d");
-    _tempContext.style.width = _width * 2;
-    _tempContext.style.height = _height * 2;
+    _context = document.getElementById("pocovm");
+    _canvas = _context.getContext("2d");
+    _context.style.width = _width * 2;
+    _context.style.height = _height * 2;
     _canvas.scale(2, 2);
     document.writeln("<br><button tabindex='-1' onclick='run()'>Turn On</button>");
 
 }
+
+var compileTime = 0;
 
 function run(){
     var file = document.getElementById('cart').files[0];
@@ -22,11 +25,16 @@ function run(){
         var fileString = evt.target.result;
         fileString = fileString.split('\n');
 
+        compileTime = performance.now();
+
         for(var line in fileString){
             var l = fileString[line].split("x");
             if(!functionFlag || l[0] == "6") parse_rom(l);
             else functionBuffer.push(fileString[line]);
         }
+
+        compileTime = performance.now() - compileTime;
+        console.log(compileTime);
     }
 }
 
@@ -40,35 +48,47 @@ var functionBuffer = [];
 var functionFlag = false;
 
 function parse_rom(line){
+
+    /* screen manager */
     if(line[0] == "0"){
         screen(line);
     }
 
+    /* pixel manager */
     if(line[0] == "1"){
         pixel(line);
     }
 
+    /* memory */
     if(line[0] == "3"){
         store(line);
     }
 
+    /* set data */
     if(line[0] == "4"){
         set(line);
     }
 
+    /* math operations */
     if(line[0] == "5"){
         math(line);
     }
 
+    /* function */
     if(line[0] == "6"){
-        /*
-        
-        6x000
-        
-        
-        */
         func(line);
     }
+
+    /* loop */
+    if(line[0] == "7"){
+        loop(line);
+    }
+
+    /* input */
+    if(line[0] == "8"){
+        input(line);
+    }
+
 }
 
 
@@ -98,7 +118,6 @@ function set(line){
 function math(line){
     if(line[1] == "000"){
         storage.c = parseInt(storage.a) + parseInt(storage.b);
-        console.log(storage.c);
     }
 
     if(line[1] == "001"){
@@ -121,7 +140,6 @@ function func(line){
         storage[line[1].substring(0, 2)] = [];
 
         functionFlag = true;
-
     }
 
     /* end function flag */
@@ -137,11 +155,60 @@ function func(line){
     if(line[1].substring(2, 3) == "2"){
         var _func = storage[line[1].substring(0, 2)];
         for(var l in _func){
-            //console.log(_func[l]);
             parse_rom(_func[l].split("x"));
-            //parse each line
         }
     }
+
 }
+
+function loop(line){
+    var updater = storage[line[1].substring(0, 2)];
+    setInterval(function(){
+        for(var l in updater){
+            parse_rom(updater[l].split("x"));
+        }
+    }, 100);
+}
+
+function input(line){
+    if(line[1].substring(0, 2) == "00"){
+        storage[line[1].substring(2, 3)] = keys[38];
+    }
+
+    if(line[1].substring(0, 2) == "01"){
+        storage[line[1].substring(2, 3)] = keys[40];
+    }
+
+    if(line[1].substring(0, 2) == "02"){
+        storage[line[1].substring(2, 3)] = keys[37];
+    }
+
+    if(line[1].substring(0, 2) == "03"){
+        storage[line[1].substring(2, 3)] = keys[39];
+    }
+
+    if(line[1].substring(0, 2) == "04"){
+        storage[line[1].substring(2, 3)] = keys[32];
+    }
+}
+
+function setKeyStatusDown(event){
+    keys[event.which] = 1;
+}
+
+function setKeyStatusUp(event){
+    keys[event.which] = 0;
+}
+
+var keys = {
+    38: 0,
+    40: 0,
+    37: 0,
+    39: 0,
+    32: 0
+};
+
+window.addEventListener("keydown", setKeyStatusDown);
+window.addEventListener("keyup", setKeyStatusUp);
 
 start();
