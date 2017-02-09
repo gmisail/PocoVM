@@ -12,6 +12,7 @@ The virtual machine currently measures in at 2kb, not compressed.
 - Math (+, -, *, /)
 - Pixel Manipulation
 - Functions
+- Keyboard Input (Up, Down, Left, Right, Space)
 
 ### Example
 
