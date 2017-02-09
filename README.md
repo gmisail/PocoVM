@@ -11,3 +11,4 @@ The virtual machine currently measures in at 2kb, not compressed.
 
 - Math (+, -, *, /)
 - Pixel Manipulation
+- Functions
