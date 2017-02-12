@@ -28,6 +28,13 @@ In the example below, a pixel is being drawn to the screen.
 1x001
 
 ```
+
+### How To Use
+
+- Download the project
+- Unzip it 
+- Start a server within the unzipped folder (If Python is installed, run: `python -m SimpleHTTPServer` within the folder)
+
 ### Future
 
 - [ ] PocoCompiler; a compiler which compiles PocoAssembly -> PocoByte
