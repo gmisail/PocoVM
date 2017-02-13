@@ -12,7 +12,7 @@ function start(){
     _context.style.height = _height * 2;
     _canvas.scale(2, 2);
     document.writeln("<br><button tabindex='-1' onclick='run()'>Turn On</button>");
-
+    document.writeln("<br><button tabindex='-1' onclick='compile()'>Compile</button>");
 }
 
 var compileTime = 0;
@@ -35,6 +35,22 @@ function run(){
 
         compileTime = performance.now() - compileTime;
         console.log(compileTime);
+    }
+}
+
+function compile(){
+    var file = document.getElementById('cart').files[0];
+    var reader = new FileReader();
+    reader.readAsText(file);
+    reader.onload = function(evt){
+        var fileString = evt.target.result;
+        fileString = fileString.split('\n');
+
+        for(var line in fileString){
+            compileLine(fileString[line]);
+        }
+
+        console.log(output);
     }
 }
 

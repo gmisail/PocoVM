@@ -1,0 +1,21 @@
+CLR
+
+VAR a 02
+VAR b 02
+
+PIX
+
+BEG 00
+
+CLR
+
+KEY 02 a
+ADD
+
+SET b c
+
+PIX
+
+END 00
+
+FVR 00
