@@ -35,8 +35,8 @@ In the example below, a pixel is being drawn to the screen.
 - Unzip it 
 - Start a server within the unzipped folder (If Python is installed, run: `python -m SimpleHTTPServer` within the folder)
 
+From this point, go to the hosted page. There will be 3 buttons: Choose File, Compile, and Turn On. 
+
 ### Future
 
-- [ ] PocoCompiler; a compiler which compiles PocoAssembly -> PocoByte
-- [ ] Application Development; a workflow for programming simple games (Pong, Breakout, etc...)
 - [ ] Desktop Support; currently the PocoVM is browser-only
