@@ -37,6 +37,8 @@ In the example below, a pixel is being drawn to the screen.
 
 From this point, go to the hosted page. There will be 3 buttons: Choose File, Compile, and Turn On. Click 'Choose File' and choose the file you wish to run/compile. To run, click 'Turn On'. To compile PASM -> PocoByte, click 'Compile'. The compiled bytecode will be printed to the Javascript console.
 
+You could also just use the hosted version, if you do not wish to download the repo: https://gmisail64.github.io/PocoVM/
+
 ### Future
 
 - [ ] Desktop Support; currently the PocoVM is browser-only
