@@ -35,7 +35,7 @@ In the example below, a pixel is being drawn to the screen.
 - Unzip it 
 - Start a server within the unzipped folder (If Python is installed, run: `python -m SimpleHTTPServer` within the folder)
 
-From this point, go to the hosted page. There will be 3 buttons: Choose File, Compile, and Turn On. 
+From this point, go to the hosted page. There will be 3 buttons: Choose File, Compile, and Turn On. Click 'Choose File' and choose the file you wish to run/compile. To run, click 'Turn On'. To compile PASM -> PocoByte, click 'Compile'. The compiled bytecode will be printed to the Javascript console.
 
 ### Future
 
